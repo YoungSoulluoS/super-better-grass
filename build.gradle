@@ -34,7 +34,9 @@ dependencies {
 
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 
-	include modImplementation("dev.lambdaurora:spruceui:${project.spruceui_version}")
+	modImplementation("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}") {
+		exclude(group: "net.fabricmc.fabric-api")
+	}
 
 	modImplementation("com.terraformersmc:modmenu:${project.modmenu_version}") {
 		transitive = false

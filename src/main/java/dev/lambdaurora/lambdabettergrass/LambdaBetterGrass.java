@@ -44,7 +44,7 @@ public class LambdaBetterGrass implements ClientModInitializer {
 
 	@ApiStatus.Internal
 	public static final LambdaBetterGrass INSTANCE = new LambdaBetterGrass();
-	public final LBGConfig config = new LBGConfig(this);
+	public final LBGConfig config = LBGConfig.INSTANCE.get();
 	private final ThreadLocal<Boolean> betterLayerDisabled = ThreadLocal.withInitial(() -> false);
 	public final LBGResourceReloader resourceReloader = new LBGResourceReloader();
 	public LBGResourcePack resourcePack;
@@ -52,7 +52,6 @@ public class LambdaBetterGrass implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
 		this.log("Initializing LambdaBetterGrass...");
-		this.config.load();
 
 		FabricLoader.getInstance().getModContainer(NAMESPACE).ifPresent(mod -> {
 			ResourceManagerHelper.registerBuiltinResourcePack(id("default"), mod, ResourcePackActivationType.DEFAULT_ENABLED);

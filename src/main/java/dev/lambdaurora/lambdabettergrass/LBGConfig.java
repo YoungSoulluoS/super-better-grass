@@ -9,11 +9,13 @@
 
 package dev.lambdaurora.lambdabettergrass;
 
-import com.electronwill.nightconfig.core.file.FileConfig;
+import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.ConfigData;
+import me.shedaniel.autoconfig.ConfigHolder;
+import me.shedaniel.autoconfig.annotation.Config;
+import me.shedaniel.autoconfig.annotation.ConfigEntry;
+import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
 import org.jetbrains.annotations.NotNull;
-
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 /**
  * Represents the mod configuration.
@@ -22,47 +24,32 @@ import java.nio.file.Paths;
  * @version 1.0.0
  * @since 1.0.0
  */
-public class LBGConfig {
-	private static final LBGMode DEFAULT_MODE = LBGMode.FANCY;
-	private static final boolean DEFAULT_BETTER_LAYER = true;
-	private static final boolean DEFAULT_DEBUG = false;
+@Config(name = LambdaBetterGrass.NAMESPACE)
+public class LBGConfig implements ConfigData {
+	@ConfigEntry.Gui.Excluded
+	public static final ConfigHolder<LBGConfig> INSTANCE = AutoConfig.register(LBGConfig.class, Toml4jConfigSerializer::new);
 
-	public static final Path CONFIG_FILE_PATH = Paths.get("config/lambdabettergrass.toml");
+	@ConfigEntry.Gui.Tooltip
+	@ConfigEntry.Gui.EnumHandler(option = ConfigEntry.Gui.EnumHandler.EnumDisplayOption.BUTTON)
+	public LBGMode mode = LBGMode.FANCY;
 
-	protected final FileConfig config;
-	private final LambdaBetterGrass mod;
-	private LBGMode mode;
-	private boolean betterLayer;
-
-	public LBGConfig(@NotNull LambdaBetterGrass mod) {
-		this.mod = mod;
-		this.config = FileConfig.builder(CONFIG_FILE_PATH)
-				.concurrent()
-				.defaultResource("/lambdabettergrass.toml")
-				.autoreload()
-				.autosave()
-				.build();
-	}
+	@ConfigEntry.Gui.Tooltip
+	public boolean betterLayer = true;
 
 	/**
 	 * Loads the configuration.
 	 */
+	@Deprecated
 	public void load() {
-		this.config.load();
-
-		this.mode = LBGMode.byId(this.config.getOrElse("mode", DEFAULT_MODE.getName())).orElse(DEFAULT_MODE);
-		this.betterLayer = this.config.getOrElse("better_layer", DEFAULT_BETTER_LAYER);
-
-		this.mod.log("Configuration loaded.");
+		// no-op
 	}
 
 	/**
 	 * Resets the configuration.
 	 */
+	@Deprecated
 	public void reset() {
-		this.setMode(DEFAULT_MODE);
-		this.setBetterLayer(DEFAULT_BETTER_LAYER);
-		this.setDebug(DEFAULT_DEBUG);
+		INSTANCE.resetToDefault();
 	}
 
 	/**
@@ -77,9 +64,10 @@ public class LBGConfig {
 	 *
 	 * @param mode the better grass mode
 	 */
+	@Deprecated
 	public void setMode(@NotNull LBGMode mode) {
 		this.mode = mode;
-		this.config.set("mode", mode.getName());
+		INSTANCE.save();
 	}
 
 	/**
@@ -96,9 +84,10 @@ public class LBGConfig {
 	 *
 	 * @param betterSnow {@code true} if better snow is enabled, otherwise {@code false}
 	 */
+	@Deprecated
 	public void setBetterLayer(boolean betterSnow) {
 		this.betterLayer = betterSnow;
-		this.config.set("better_layer", betterSnow);
+		INSTANCE.save();
 	}
 
 	/**
@@ -106,8 +95,9 @@ public class LBGConfig {
 	 *
 	 * @return {@code true} if this mod is in debug mode, otherwise {@code false}
 	 */
+	@Deprecated
 	public boolean isDebug() {
-		return this.config.getOrElse("debug", DEFAULT_DEBUG);
+		return false;
 	}
 
 	/**
@@ -115,7 +105,8 @@ public class LBGConfig {
 	 *
 	 * @param debug {@code true} if this mod is in debug mode, otherwise {@code false}
 	 */
+	@Deprecated
 	public void setDebug(boolean debug) {
-		this.config.set("debug", debug);
+		// no-op
 	}
 }

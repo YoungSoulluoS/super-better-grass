@@ -9,10 +9,7 @@
 
 package dev.lambdaurora.lambdabettergrass;
 
-import dev.lambdaurora.spruceui.SpruceTexts;
-import dev.lambdaurora.spruceui.util.Nameable;
 import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -24,17 +21,11 @@ import java.util.Optional;
  * @version 1.2.1
  * @since 1.0.0
  */
-public enum LBGMode implements Nameable {
-	OFF(SpruceTexts.OPTIONS_OFF, Formatting.RED),
-	FASTEST(SpruceTexts.OPTIONS_GENERIC_FASTEST, Formatting.GOLD),
-	FAST(SpruceTexts.OPTIONS_GENERIC_FAST, Formatting.YELLOW),
-	FANCY(SpruceTexts.OPTIONS_GENERIC_FANCY, Formatting.GREEN);
-
-	private final Text text;
-
-	LBGMode(Text text, Formatting formatting) {
-		this.text = text.copy().formatted(formatting);
-	}
+public enum LBGMode {
+	OFF,
+	FASTEST,
+	FAST,
+	FANCY;
 
 	/**
 	 * Returns whether this mode enables better grass.
@@ -58,11 +49,12 @@ public enum LBGMode implements Nameable {
 	/**
 	 * {@return the translated text of the better grass mode}
 	 */
+	@Deprecated
 	public Text getTranslatedText() {
-		return this.text;
+		return Text.empty();
 	}
 
-	@Override
+	@Deprecated
 	public String getName() {
 		return this.name().toLowerCase();
 	}

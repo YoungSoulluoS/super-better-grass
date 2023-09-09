@@ -13,7 +13,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
 import dev.lambdaurora.lambdabettergrass.LambdaBetterGrass;
-import dev.lambdaurora.spruceui.util.Nameable;
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceMap;
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ReferenceArrayList;
@@ -43,7 +42,7 @@ import java.util.function.Function;
  * @version 1.4.0
  * @since 1.0.0
  */
-public class LBGLayerType implements Nameable {
+public class LBGLayerType {
 	private static final Map<String, RenderLayer> NAMED_RENDER_LAYERS = new ImmutableMap.Builder<String, RenderLayer>()
 			.put("solid", RenderLayer.getSolid())
 			.put("cutout", RenderLayer.getCutout())
@@ -81,7 +80,6 @@ public class LBGLayerType implements Nameable {
 		return modelGetter.apply(this.modelId);
 	}
 
-	@Override
 	public String getName() {
 		return this.name;
 	}

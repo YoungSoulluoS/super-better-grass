@@ -11,7 +11,7 @@ package dev.lambdaurora.lambdabettergrass;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
-import dev.lambdaurora.lambdabettergrass.gui.SettingsScreen;
+import me.shedaniel.autoconfig.AutoConfig;
 
 /**
  * Represents LambdaBetterGrass ModMenu integration.
@@ -23,6 +23,6 @@ import dev.lambdaurora.lambdabettergrass.gui.SettingsScreen;
 public class LambdaBetterGrassModMenu implements ModMenuApi {
 	@Override
 	public ConfigScreenFactory<?> getModConfigScreenFactory() {
-		return SettingsScreen::new;
+		return parent -> AutoConfig.getConfigScreen(LBGConfig.class, parent).get();
 	}
 }
