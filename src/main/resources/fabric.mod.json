@@ -1,37 +1,36 @@
 {
   "schemaVersion": 1,
   "id": "lambdabettergrass",
-  "name": "LambdaBetterGrass",
+  "name": "SuperBetterGrass",
   "version": "${version}",
-  "description": "Adds actual better grass. But now on Quilt, so move there ;)",
+  "description": "Adds actual better grass and actual better snow. All of that while being customizable!",
   "authors": [
+    "dima_dencep",
     "LambdAurora"
   ],
   "contact": {
-    "homepage": "https://lambdaurora.dev/projects/lambdabettergrass",
-    "sources": "https://github.com/LambdAurora/LambdaBetterGrass.git",
-    "issues": "https://github.com/LambdAurora/LambdaBetterGrass/issues"
+    "homepage": "https://curseforge.com/minecraft/mc-mods/superbettergrass",
+    "sources": "https://github.com/dima-dencep/SuperBetterGrass",
+    "issues": "https://github.com/dima-dencep/SuperBetterGrass/issues"
   },
   "license": "MIT",
   "icon": "assets/lambdabettergrass/icon.png",
   "environment": "client",
   "entrypoints": {
-    "preLaunch": [
-      "dev.lambdaurora.lambdabettergrass.MigrationNotice"
+    "client": [
+      "dev.lambdaurora.lambdabettergrass.LambdaBetterGrass"
+    ],
+    "modmenu": [
+      "dev.lambdaurora.lambdabettergrass.LambdaBetterGrassModMenu"
     ]
   },
   "mixins": [
-    "lambdabettergrass.fabric.mixins.json"
+    "lambdabettergrass.mixins.json"
   ],
+  "accessWidener": "lambdabettergrass.accesswidener",
   "depends": {
     "fabricloader": ">=0.14.7",
-    "minecraft": ">=1.20",
-    "java": ">=17"
-  },
-  "recommends": {
-    "modmenu": ">=4.0.0"
-  },
-  "breaks": {
-    "optifabric": "*"
+    "minecraft": "~1.20",
+    "java": ">=17",
   }
 }

@@ -26,7 +26,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.resource.Resource;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
-import org.quiltmc.qsl.block.extensions.api.client.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -108,12 +108,12 @@ public class LBGLayerType implements Nameable {
 		if (currentLayer != this.defaultRenderLayer && !this.acceptedRenderLayers.contains(currentLayer)) {
 			this.oldRenderLayers.putIfAbsent(block, currentLayer);
 
-			BlockRenderLayerMap.put(this.defaultRenderLayer, block);
+			BlockRenderLayerMap.INSTANCE.putBlock(block, this.defaultRenderLayer);
 		}
 	}
 
 	private void resetSelf() {
-		this.oldRenderLayers.forEach((block, renderLayer) -> BlockRenderLayerMap.put(renderLayer, block));
+		this.oldRenderLayers.forEach(BlockRenderLayerMap.INSTANCE::putBlock);
 	}
 
 	/**

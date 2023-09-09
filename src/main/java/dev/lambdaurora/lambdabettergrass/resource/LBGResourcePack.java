@@ -14,7 +14,6 @@ import com.mojang.blaze3d.texture.NativeImage;
 import dev.lambdaurora.lambdabettergrass.LambdaBetterGrass;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
-import org.quiltmc.qsl.resource.loader.api.InMemoryResourcePack;
 
 import java.io.IOException;
 import java.util.Set;
@@ -32,7 +31,7 @@ public class LBGResourcePack extends InMemoryResourcePack {
 		final var id = new Identifier(LambdaBetterGrass.NAMESPACE, "block/bettergrass/" + name);
 
 		try {
-			this.putImage(new Identifier(id.getNamespace(), "textures/" + id.getPath() + ".png"), image);
+			this.putResource(ResourceType.CLIENT_RESOURCES, new Identifier(id.getNamespace(), "textures/" + id.getPath() + ".png"), image.getBytes());
 		} catch (IOException e) {
 			this.mod.warn("Could not put image {}.", id, e);
 		}

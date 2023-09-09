@@ -18,18 +18,14 @@ import dev.lambdaurora.lambdabettergrass.resource.LBGResourceReloader;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelModifier;
 import net.minecraft.client.util.ModelIdentifier;
-import net.minecraft.resource.ResourceType;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
-import org.quiltmc.loader.api.ModContainer;
-import org.quiltmc.qsl.base.api.entrypoint.client.ClientModInitializer;
-import org.quiltmc.qsl.resource.loader.api.ResourceLoader;
-import org.quiltmc.qsl.resource.loader.api.ResourcePackActivationType;
-import org.quiltmc.qsl.resource.loader.api.client.ClientResourceLoaderEvents;
+import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import org.slf4j.Logger;
-
-import java.nio.file.Path;
 
 /**
  * Represents the LambdaBetterGrass mod.
@@ -38,7 +34,7 @@ import java.nio.file.Path;
  * @version 1.5.2
  * @since 1.0.0
  */
-public class LambdaBetterGrass implements ClientModInitializer, ClientResourceLoaderEvents.EndResourcePackReload {
+public class LambdaBetterGrass implements ClientModInitializer {
 	public static final String NAMESPACE = "lambdabettergrass";
 	public static final Logger LOGGER = LogUtils.getLogger();
 	/* Default masks */
@@ -54,19 +50,14 @@ public class LambdaBetterGrass implements ClientModInitializer, ClientResourceLo
 	public LBGResourcePack resourcePack;
 
 	@Override
-	public void onInitializeClient(ModContainer mod) {
+	public void onInitializeClient() {
 		this.log("Initializing LambdaBetterGrass...");
 		this.config.load();
 
-		ResourceLoader.registerBuiltinResourcePack(id("default"), mod, ResourcePackActivationType.DEFAULT_ENABLED);
-		ResourceLoader.registerBuiltinResourcePack(id("32x"), mod, ResourcePackActivationType.NORMAL);
-
-		ResourceLoader.get(ResourceType.CLIENT_RESOURCES).getRegisterTopResourcePackEvent()
-				.register(id("register_pack"), context -> {
-					this.log("Rebuilding resources and inject generated resource pack.");
-					context.addResourcePack(this.resourcePack = new LBGResourcePack(this));
-					this.resourceReloader.reload(context.resourceManager());
-				});
+		FabricLoader.getInstance().getModContainer(NAMESPACE).ifPresent(mod -> {
+			ResourceManagerHelper.registerBuiltinResourcePack(id("default"), mod, ResourcePackActivationType.DEFAULT_ENABLED);
+			ResourceManagerHelper.registerBuiltinResourcePack(id("32x"), mod, ResourcePackActivationType.NORMAL);
+		});
 
 		LBGState.registerType("grass", (id, block, resourceManager, json, deserializationContext) -> new LBGGrassState(id, resourceManager, json));
 		LBGState.registerType("layer", LBGLayerState::new);
@@ -94,13 +85,6 @@ public class LambdaBetterGrass implements ClientModInitializer, ClientResourceLo
 				return model;
 			});
 		});
-	}
-
-	@Override
-	public void onEndResourcePackReload(ClientResourceLoaderEvents.EndResourcePackReload.Context context) {
-		if (this.config.isDebug()) {
-			this.resourcePack.dumpTo(Path.of("debug/lbg_out"));
-		}
 	}
 
 	/**

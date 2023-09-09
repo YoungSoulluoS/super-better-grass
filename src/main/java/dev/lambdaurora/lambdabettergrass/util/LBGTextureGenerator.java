@@ -13,11 +13,12 @@ import com.mojang.blaze3d.texture.NativeImage;
 import dev.lambdaurora.lambdabettergrass.LambdaBetterGrass;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
-import org.quiltmc.loader.api.minecraft.ClientOnly;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
 import java.io.IOException;
 
-@ClientOnly
+@Environment(EnvType.CLIENT)
 public enum LBGTextureGenerator {
 	; // No instantiation possible <3
 
