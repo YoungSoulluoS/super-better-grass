@@ -9,9 +9,9 @@
     "LambdAurora"
   ],
   "contact": {
-    "homepage": "https://curseforge.com/minecraft/mc-mods/superbettergrass",
-    "sources": "https://github.com/dima-dencep/SuperBetterGrass",
-    "issues": "https://github.com/dima-dencep/SuperBetterGrass/issues"
+    "homepage": "https://curseforge.com/minecraft/mc-mods/super-better-grass",
+    "sources": "https://github.com/dima-dencep/super-better-grass",
+    "issues": "https://github.com/dima-dencep/super-better-grass/issues"
   },
   "license": "AGPL-3.0-only",
   "icon": "assets/lambdabettergrass/icon.png",
@@ -33,5 +33,16 @@
     "minecraft": "~1.20",
     "java": ">=17",
     "cloth-config": "*"
-  }
+  },
+  "custom": {
+    "modmenu": {
+      "links": {
+        "modmenu.curseforge": "https://curseforge.com/minecraft/mc-mods/super-better-grass",
+        "modmenu.discord": "https://discord.gg/jdB5JYX7W7",
+        "modmenu.donate": "https://www.donationalerts.com/c/dima_dencep",
+        "modmenu.github_releases": "https://github.com/dima-dencep/super-better-grass/releases",
+        "modmenu.modrinth": "https://modrinth.com/mod/super-better-grass"
+      }
+    }
+  },
 }
