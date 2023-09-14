@@ -67,6 +67,9 @@ jar {
 	from('LICENSE') {
 		rename { "${it}_${project.archivesBaseName}" }
 	}
+	from('LICENSE.LambdaBetterGrass') {
+		rename { "${it}_LambdaBetterGrass" }
+	}
 }
 
 // Configure the maven publication.
