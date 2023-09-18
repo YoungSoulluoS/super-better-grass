@@ -1,12 +1,15 @@
 {
   "schemaVersion": 1,
-  "id": "lambdabettergrass",
+  "id": "superbettergrass",
   "name": "SuperBetterGrass",
   "version": "${version}",
   "description": "Adds actual better grass and actual better snow. All of that while being customizable!",
   "authors": [
     "dima_dencep",
     "LambdAurora"
+  ],
+  "provides": [
+    "lambdabettergrass"
   ],
   "contact": {
     "homepage": "https://curseforge.com/minecraft/mc-mods/super-better-grass",
