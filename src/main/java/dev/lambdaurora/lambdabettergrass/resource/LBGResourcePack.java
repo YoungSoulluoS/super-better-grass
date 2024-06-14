@@ -14,8 +14,11 @@ import com.mojang.blaze3d.texture.NativeImage;
 import dev.lambdaurora.lambdabettergrass.LambdaBetterGrass;
 import net.minecraft.resource.ResourceIoSupplier;
 import net.minecraft.resource.ResourceType;
+import net.minecraft.resource.pack.PackLocationInfo;
+import net.minecraft.resource.pack.PackSource;
 import net.minecraft.resource.pack.ResourcePack;
-import net.minecraft.resource.pack.metadata.ResourceMetadataReader;
+import net.minecraft.resource.pack.metadata.ResourceMetadataSectionReader;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
@@ -23,6 +26,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
@@ -31,6 +35,9 @@ public class LBGResourcePack implements ResourcePack {
 	private static final Set<String> NAMESPACES = Sets.newHashSet(LambdaBetterGrass.NAMESPACE);
 	private final Map<String, Supplier<byte[]>> resources = new ConcurrentHashMap<>();
 
+	private final PackLocationInfo packLocationInfo = new PackLocationInfo(
+			"LambdaBetterGrass generated resources", Text.empty(), PackSource.PACK_SOURCE_BUILTIN, Optional.empty()
+	);
 	private final LambdaBetterGrass mod;
 
 	public LBGResourcePack(LambdaBetterGrass mod) {
@@ -79,12 +86,12 @@ public class LBGResourcePack implements ResourcePack {
 	}
 
 	@Override
-	public String getName() {
-		return "LambdaBetterGrass generated resources";
+	public PackLocationInfo getLocationInfo() {
+		return this.packLocationInfo;
 	}
 
 	@Override
-	public <T> @Nullable T parseMetadata(ResourceMetadataReader<T> metaReader) {
+	public <T> @Nullable T parseMetadata(ResourceMetadataSectionReader<T> metaReader) {
 		return null;
 	}
 
