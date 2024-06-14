@@ -45,7 +45,7 @@ public class LBGResourcePack implements ResourcePack {
 	}
 
 	public Identifier dynamicallyPutImage(String name, NativeImage image) {
-		final var id = new Identifier(LambdaBetterGrass.NAMESPACE, "block/bettergrass/" + name);
+		final var id = Identifier.of(LambdaBetterGrass.NAMESPACE, "block/bettergrass/" + name);
 
 		Supplier<byte[]> suppler = () -> {
 			try {

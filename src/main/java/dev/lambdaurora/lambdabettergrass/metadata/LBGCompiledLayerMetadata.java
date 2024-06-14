@@ -87,15 +87,14 @@ public class LBGCompiledLayerMetadata {
 	 * @param baker the model baker
 	 * @param textureGetter the texture getter
 	 * @param rotationContainer the rotation container
-	 * @param modelId the model identifier
 	 */
-	public void bake(ModelBaker baker, Function<Material, Sprite> textureGetter, ModelBakeSettings rotationContainer, Identifier modelId) {
+	public void bake(ModelBaker baker, Function<Material, Sprite> textureGetter, ModelBakeSettings rotationContainer) {
 		if (this.unbakedModels.layerModel() != null) {
-			this.bakedLayerModel = this.unbakedModels.layerModel().bake(baker, textureGetter, rotationContainer, modelId);
+			this.bakedLayerModel = this.unbakedModels.layerModel().bake(baker, textureGetter, rotationContainer);
 		}
 
 		if (this.unbakedModels.alternateModel() != null) {
-			this.bakedAlternateModel = this.unbakedModels.alternateModel().bake(baker, textureGetter, rotationContainer, modelId);
+			this.bakedAlternateModel = this.unbakedModels.alternateModel().bake(baker, textureGetter, rotationContainer);
 		}
 	}
 

@@ -60,7 +60,7 @@ public class LBGResourceReloader {
 	 */
 	private void loadState(ResourceManager resourceManager, Identifier id, Resource resource,
 			ModelVariantMap.DeserializationContext variantMapDeserializationContext) {
-		var stateId = new Identifier(
+		var stateId = Identifier.of(
 				id.getNamespace(),
 				id.getPath().substring(LBGState.PATH_PREFIX.length() + 1, id.getPath().length() - ".json".length())
 		);

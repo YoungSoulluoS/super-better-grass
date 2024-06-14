@@ -54,11 +54,10 @@ public class LBGUnbakedModel implements UnbakedModel {
 	}
 
 	@Override
-	public @Nullable BakedModel bake(ModelBaker baker, Function<Material, Sprite> textureGetter,
-			ModelBakeSettings rotationContainer, Identifier modelId) {
+	public @Nullable BakedModel bake(ModelBaker baker, Function<Material, Sprite> textureGetter, ModelBakeSettings rotationContainer) {
 		this.metadata.bakeTextures(textureGetter);
 
-		var model = new LBGBakedModel(Objects.requireNonNull(this.baseModel.bake(baker, textureGetter, rotationContainer, modelId)), this.metadata);
+		var model = new LBGBakedModel(Objects.requireNonNull(this.baseModel.bake(baker, textureGetter, rotationContainer)), this.metadata);
 
 		this.metadata.propagate(model);
 

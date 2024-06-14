@@ -75,7 +75,7 @@ public class LBGLayerState extends LBGState {
 	private void loadVariant(String variant, JsonObject json, ResourceManager resourceManager,
 			ModelVariantMap.DeserializationContext deserializationContext) {
 		var metadataId = Identifier.tryParse(json.get("data").getAsString());
-		var metadataResourceId = new Identifier(metadataId.getNamespace(), metadataId.getPath() + ".json");
+		var metadataResourceId = Identifier.of(metadataId.getNamespace(), metadataId.getPath() + ".json");
 
 		LBGLayerType.forEach(type -> {
 			this.putOrReplaceMetadata(variant, metadataId, type, DEFAULT_METADATA_LAYER_JSON, deserializationContext);

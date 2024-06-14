@@ -135,17 +135,17 @@ public class LBGLayerType {
 	}
 
 	public static void load(Identifier resourceId, Resource resource) {
-		var id = new Identifier(resourceId.getNamespace(), resourceId.getPath().replace(".json", ""));
+		var id = Identifier.of(resourceId.getNamespace(), resourceId.getPath().replace(".json", ""));
 		try (var reader = new InputStreamReader(resource.open())) {
 			var json = JsonParser.parseReader(reader).getAsJsonObject();
 
-			var affectId = new Identifier(json.get("block").getAsString());
+			var affectId = Identifier.tryParse(json.get("block").getAsString());
 			var block = Registries.BLOCK.get(affectId);
 
 			if (block == Blocks.AIR)
 				return;
 
-			var modelId = new Identifier(json.get("model").getAsString());
+			var modelId = Identifier.tryParse(json.get("model").getAsString());
 
 			var acceptedRenderLayers = new ReferenceArrayList<RenderLayer>();
 			RenderLayer defaultRenderLayer = null;

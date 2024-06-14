@@ -63,9 +63,9 @@ public class LambdaBetterGrass implements ClientModInitializer {
 
 		ModelLoadingPlugin.register(pluginCtx -> {
 			pluginCtx.modifyModelOnLoad().register(ModelModifier.WRAP_PHASE, (model, context) -> {
-				if (context.id() instanceof ModelIdentifier modelId) {
+				if (context.topLevelId() instanceof ModelIdentifier modelId) {
 					if (!modelId.getVariant().equals("inventory")) {
-						var stateId = new Identifier(modelId.getNamespace(), modelId.getPath());
+						var stateId = modelId.id();
 
 						// Get cached states metadata.
 						var state = LBGState.getMetadataState(stateId);
@@ -130,7 +130,7 @@ public class LambdaBetterGrass implements ClientModInitializer {
 	 * @param path the path
 	 */
 	public static Identifier id(@NotNull String path) {
-		return new Identifier(NAMESPACE, path);
+		return Identifier.of(NAMESPACE, path);
 	}
 
 	/**

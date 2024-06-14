@@ -70,9 +70,9 @@ public class LBGLayer {
 		if (json.has("textures")) {
 			var textures = json.getAsJsonObject("textures");
 			if (textures.has("top"))
-				topTexture = new Identifier(textures.get("top").getAsString());
+				topTexture = Identifier.tryParse(textures.get("top").getAsString());
 			if (textures.has("side"))
-				sideTexture = new Identifier(textures.get("side").getAsString());
+				sideTexture = Identifier.tryParse(textures.get("side").getAsString());
 
 			if (textures.has("overrides")) {
 				var overrides = textures.getAsJsonObject("overrides");
@@ -92,13 +92,13 @@ public class LBGLayer {
 		if (json.has("masks")) {
 			var mask = json.getAsJsonObject("masks");
 			if (mask.has("connect")) {
-				connectMask = new Identifier(mask.get("connect").getAsString() + ".png");
+				connectMask = Identifier.tryParse(mask.get("connect").getAsString() + ".png");
 			}
 			if (mask.has("blend_up")) {
-				blendUpMask = new Identifier(mask.get("blend_up").getAsString() + ".png");
+				blendUpMask = Identifier.tryParse(mask.get("blend_up").getAsString() + ".png");
 			}
 			if (mask.has("arch")) {
-				blendArchMask = new Identifier(mask.get("arch").getAsString() + ".png");
+				blendArchMask = Identifier.tryParse(mask.get("arch").getAsString() + ".png");
 			}
 		}
 		this.connectMask = connectMask;
@@ -115,7 +115,7 @@ public class LBGLayer {
 	 */
 	private @Nullable Material getOverridenTexture(JsonObject overrides, String name) {
 		if (overrides.has(name)) {
-			var id = new Material(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, new Identifier(overrides.get(name).getAsString()));
+			var id = new Material(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, Identifier.tryParse(overrides.get(name).getAsString()));
 			this.parentMetadata.textures.add(id);
 			return id;
 		}
@@ -173,7 +173,7 @@ public class LBGLayer {
 	}
 
 	private static Identifier getTexturePath(Identifier id) {
-		return new Identifier(id.getNamespace(), "textures/" + id.getPath() + ".png");
+		return Identifier.of(id.getNamespace(), "textures/" + id.getPath() + ".png");
 	}
 
 	private static Material genTexture(String name, NativeImage side, NativeImage top, NativeImage mask) {
