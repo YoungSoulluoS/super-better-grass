@@ -1,9 +1,9 @@
 package dev.lambdaurora.lambdabettergrass.mixin;
 
 import dev.lambdaurora.lambdabettergrass.LambdaBetterGrass;
-import net.minecraft.resource.MultiPackResourceManager;
+import net.minecraft.resource.LifecycledResourceManagerImpl;
+import net.minecraft.resource.ResourcePack;
 import net.minecraft.resource.ResourceType;
-import net.minecraft.resource.pack.ResourcePack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -11,8 +11,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
 
-@Mixin(MultiPackResourceManager.class)
-public abstract class MultiPackResourceManagerMixin {
+@Mixin(LifecycledResourceManagerImpl.class)
+public abstract class LifecycledResourceManagerImplMixin {
     @Inject(
             method = "<init>",
             at = @At(
@@ -24,7 +24,7 @@ public abstract class MultiPackResourceManagerMixin {
             LambdaBetterGrass mod = LambdaBetterGrass.get();
 
             mod.log("Rebuilding resources...");
-            mod.resourceReloader.reload((MultiPackResourceManager) (Object) this);
+            mod.resourceReloader.reload((LifecycledResourceManagerImpl) (Object) this);
         }
     }
 }

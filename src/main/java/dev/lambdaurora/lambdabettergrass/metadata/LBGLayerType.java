@@ -136,7 +136,7 @@ public class LBGLayerType {
 
 	public static void load(Identifier resourceId, Resource resource) {
 		var id = Identifier.of(resourceId.getNamespace(), resourceId.getPath().replace(".json", ""));
-		try (var reader = new InputStreamReader(resource.open())) {
+		try (var reader = new InputStreamReader(resource.getInputStream())) {
 			var json = JsonParser.parseReader(reader).getAsJsonObject();
 
 			var affectId = Identifier.tryParse(json.get("block").getAsString());

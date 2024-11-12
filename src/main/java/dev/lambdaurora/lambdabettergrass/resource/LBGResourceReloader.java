@@ -71,7 +71,7 @@ public class LBGResourceReloader {
 			return;
 		}
 
-		try (var reader = new InputStreamReader(resource.open())) {
+		try (var reader = new InputStreamReader(resource.getInputStream())) {
 			var json = JsonParser.parseReader(reader).getAsJsonObject();
 			LBGState.loadMetadataState(stateId, block.get(), resourceManager, json, variantMapDeserializationContext);
 		} catch (IOException e) {

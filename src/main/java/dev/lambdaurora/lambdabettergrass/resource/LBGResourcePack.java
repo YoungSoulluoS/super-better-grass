@@ -10,14 +10,10 @@
 package dev.lambdaurora.lambdabettergrass.resource;
 
 import com.google.common.collect.Sets;
-import com.mojang.blaze3d.texture.NativeImage;
 import dev.lambdaurora.lambdabettergrass.LambdaBetterGrass;
-import net.minecraft.resource.ResourceIoSupplier;
-import net.minecraft.resource.ResourceType;
-import net.minecraft.resource.pack.PackLocationInfo;
-import net.minecraft.resource.pack.PackSource;
-import net.minecraft.resource.pack.ResourcePack;
-import net.minecraft.resource.pack.metadata.ResourceMetadataSectionReader;
+import net.minecraft.client.texture.NativeImage;
+import net.minecraft.resource.*;
+import net.minecraft.resource.metadata.ResourceMetadataReader;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
@@ -35,8 +31,8 @@ public class LBGResourcePack implements ResourcePack {
 	private static final Set<String> NAMESPACES = Sets.newHashSet(LambdaBetterGrass.NAMESPACE);
 	private final Map<String, Supplier<byte[]>> resources = new ConcurrentHashMap<>();
 
-	private final PackLocationInfo packLocationInfo = new PackLocationInfo(
-			"LambdaBetterGrass generated resources", Text.empty(), PackSource.PACK_SOURCE_BUILTIN, Optional.empty()
+	private final ResourcePackInfo packLocationInfo = new ResourcePackInfo(
+			"LambdaBetterGrass generated resources", Text.empty(), ResourcePackSource.BUILTIN, Optional.empty()
 	);
 	private final LambdaBetterGrass mod;
 
@@ -62,36 +58,37 @@ public class LBGResourcePack implements ResourcePack {
 	}
 
 	@Override
-	public @Nullable ResourceIoSupplier<InputStream> openRoot(String... path) {
+	public @Nullable InputSupplier<InputStream> openRoot(String... path) {
 		return openResource(String.join("/", path));
 	}
 
 	@Override
-	public @Nullable ResourceIoSupplier<InputStream> open(ResourceType type, Identifier id) {
+	public @Nullable InputSupplier<InputStream> open(ResourceType type, Identifier id) {
 		return openResource(String.format("%s/%s/%s", type.getDirectory(), id.getNamespace(), id.getPath()));
 	}
-
+	
 	@Override
-	public void listResources(ResourceType type, String namespace, String startingPath, ResourceConsumer consumer) {
-		String path = String.format("%s/%s/%s", type.getDirectory(), namespace, startingPath);
-
+	public void findResources(ResourceType type, String namespace, String prefix, ResultConsumer consumer) {
+		String path = String.format("%s/%s/%s", type.getDirectory(), namespace, prefix);
+		
 		this.resources.keySet().stream()
-				.filter(string -> string.startsWith(path))
-				.forEach(entry -> consumer.accept(fromPath(type, entry), openResource(entry)));
+			.filter(string -> string.startsWith(path))
+			.forEach(entry -> consumer.accept(fromPath(type, entry), openResource(entry)));
+		
 	}
 
 	@Override
 	public Set<String> getNamespaces(ResourceType type) {
 		return NAMESPACES;
 	}
-
+	
 	@Override
-	public PackLocationInfo getLocationInfo() {
-		return this.packLocationInfo;
+	public ResourcePackInfo getInfo() {
+		return packLocationInfo;
 	}
 
 	@Override
-	public <T> @Nullable T parseMetadata(ResourceMetadataSectionReader<T> metaReader) {
+	public <T> @Nullable T parseMetadata(ResourceMetadataReader<T> metaReader) {
 		return null;
 	}
 
@@ -100,7 +97,7 @@ public class LBGResourcePack implements ResourcePack {
 		// this.resources.clear();
 	}
 
-	protected ResourceIoSupplier<InputStream> openResource(String path) {
+	protected InputSupplier<InputStream> openResource(String path) {
 		var supplier = this.resources.get(path);
 		if (supplier == null) {
 			return null;
@@ -117,6 +114,6 @@ public class LBGResourcePack implements ResourcePack {
 	private static @Nullable Identifier fromPath(ResourceType type, String path) {
 		String[] split = path.substring((type.getDirectory() + "/").length()).split("/", 2);
 
-		return Identifier.tryValidate(split[0], split[1]);
+		return Identifier.tryParse(split[0], split[1]);
 	}
 }

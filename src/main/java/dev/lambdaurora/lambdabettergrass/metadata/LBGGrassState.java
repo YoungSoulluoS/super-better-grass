@@ -78,7 +78,7 @@ public class LBGGrassState extends LBGState {
 	 */
 	private @Nullable LBGMetadata loadMetadata(@NotNull ResourceManager resourceManager, @NotNull Identifier metadataId) {
 		var metadataResourceId = Identifier.of(metadataId.getNamespace(), metadataId.getPath() + ".json");
-		try (var reader = new InputStreamReader(resourceManager.getResourceOrThrow(metadataResourceId).open())) {
+		try (var reader = new InputStreamReader(resourceManager.getResourceOrThrow(metadataResourceId).getInputStream())) {
 			var metadataJson = JsonParser.parseReader(reader).getAsJsonObject();
 
 			return new LBGMetadata(resourceManager, metadataId, metadataJson);

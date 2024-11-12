@@ -83,7 +83,7 @@ public class LBGLayerState extends LBGState {
 
 		var resources = resourceManager.getAllResources(metadataResourceId);
 		for (var resource : resources) {
-			try (var reader = new InputStreamReader(resource.open())) {
+			try (var reader = new InputStreamReader(resource.getInputStream())) {
 				var metadataJson = JsonParser.parseReader(reader).getAsJsonObject();
 
 				for (var entry : metadataJson.entrySet()) {
@@ -149,7 +149,7 @@ public class LBGLayerState extends LBGState {
 					metadatas.add(new LBGCompiledLayerMetadata(metadata.layerType, metadata.offset(), models));
 				});
 
-				if (metadatas.size() != 0) {
+				if (!metadatas.isEmpty()) {
 					return new LBGLayerUnbakedModel(originalModel, metadatas);
 				}
 
